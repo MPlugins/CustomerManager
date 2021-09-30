@@ -1,0 +1,15 @@
+name: CustomerManager
+version: '${project.version}'
+main: org.mplugins.customermanager.CustomerManager
+api-version: 1.16
+authors: [ MPlugins ]
+description: Restricts server access to authorized players only
+website: https://mplugins.org
+
+depend:
+  - MPlugins
+
+commands:
+  verify:
+  generatecode:
+    permission: mplugins.generatecode
