@@ -10,6 +10,7 @@ depend:
   - MPlugins
 
 commands:
+  availablecodes:
   verify:
   generatecode:
     permission: mplugins.generatecode

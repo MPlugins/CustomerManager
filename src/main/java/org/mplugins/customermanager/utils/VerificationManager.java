@@ -6,7 +6,9 @@ import org.mplugins.customermanager.CustomerManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class VerificationManager
@@ -14,6 +16,26 @@ public class VerificationManager
     private static final HashMap<UUID, Boolean> verifiedCache = new HashMap<>();
     private static final MySQL mysql = CustomerManager.getInstance().getMysql();
     private static VerificationManager instance;
+
+    public List<String> getAvailableCodes()
+    {
+        String sql = "SELECT id, code FROM codes WHERE id NOT IN (SELECT codeId FROM customers);";
+        List<String> availableCodes = new ArrayList<>();
+
+        try (Statement statement = mysql.createStatement())
+        {
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next())
+                availableCodes.add(resultSet.getString("code"));
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return availableCodes;
+    }
 
     public void verify(UUID uuid, String code)
     {

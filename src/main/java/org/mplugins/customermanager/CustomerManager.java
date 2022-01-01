@@ -2,6 +2,7 @@ package org.mplugins.customermanager;
 
 import org.mplugins.MPlugins;
 import org.mplugins.configuration.MySQL;
+import org.mplugins.customermanager.commands.AvailableCodes;
 import org.mplugins.customermanager.commands.GenerateCodeCommand;
 import org.mplugins.customermanager.commands.VerifyCommand;
 import org.mplugins.customermanager.listeners.Listeners;
@@ -20,6 +21,7 @@ public final class CustomerManager extends MPlugins
 
         getCommand("verify").setExecutor(new VerifyCommand());
         getCommand("generatecode").setExecutor(new GenerateCodeCommand());
+        getCommand("availablecodes").setExecutor(new AvailableCodes());
         getServer().getPluginManager().registerEvents(new Listeners(), this);
     }
 
