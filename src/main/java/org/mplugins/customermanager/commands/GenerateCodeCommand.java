@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.mplugins.configuration.MySQL;
 import org.mplugins.customermanager.CustomerManager;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -40,7 +41,7 @@ public class GenerateCodeCommand implements CommandExecutor
 
             sender.sendMessage(codeComponent);
 
-            try (Statement statement = mysql.getConnection().createStatement())
+            try (Statement statement = mysql.createStatement())
             {
                 statement.execute("INSERT INTO codes (code) VALUES ('" + code + "');");
             }
@@ -71,9 +72,10 @@ public class GenerateCodeCommand implements CommandExecutor
     {
         String sql = "SELECT COUNT(*) count FROM codes WHERE code = '" + code + "';";
 
-        try (Statement statement = mysql.getConnection().createStatement();
-             ResultSet result = statement.executeQuery(sql))
+        try (Statement statement = mysql.createStatement())
         {
+            ResultSet result = statement.executeQuery(sql);
+
             return result.first() && result.getInt("count") != 0;
         }
         catch (SQLException e)

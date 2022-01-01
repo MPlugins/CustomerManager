@@ -19,7 +19,7 @@ public class VerificationManager
     {
         String sql = "INSERT INTO customers (uuid, codeId) VALUES ('" + uuid.toString() + "', (SELECT id FROM codes WHERE code = '" + code + "'));";
 
-        try (Statement statement = mysql.getConnection().createStatement())
+        try (Statement statement = mysql.createStatement())
         {
             statement.execute(sql);
         }
@@ -35,7 +35,7 @@ public class VerificationManager
     {
         String sql = "SELECT COUNT(*) count FROM codes WHERE code = '" + code + "' AND code NOT IN (SELECT code FROM customers NATURAL JOIN codes);";
 
-        try (Statement statement = mysql.getConnection().createStatement();
+        try (Statement statement = mysql.createStatement();
              ResultSet result = statement.executeQuery(sql))
         {
             result.next();
@@ -57,7 +57,7 @@ public class VerificationManager
 
         String sql = "SELECT COUNT(*) count FROM customers WHERE uuid = '" + uuid.toString() + "';";
 
-        try (Statement statement = mysql.getConnection().createStatement();
+        try (Statement statement = mysql.createStatement();
              ResultSet result = statement.executeQuery(sql))
         {
             boolean verified = result.next() && result.getInt("count") != 0;

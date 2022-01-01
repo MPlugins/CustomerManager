@@ -26,7 +26,7 @@ public final class CustomerManager extends MPlugins
     @Override
     public void onStop()
     {
-
+        mysql.disconnect();
     }
 
     private void prepareMySQL()
@@ -38,7 +38,7 @@ public final class CustomerManager extends MPlugins
 
         mysql = new MySQL(username, password, host, database);
 
-        try (Statement statement = mysql.getConnection().createStatement())
+        try (Statement statement = mysql.createStatement())
         {
             statement.execute("CREATE TABLE IF NOT EXISTS codes (id INT PRIMARY KEY AUTO_INCREMENT, code TEXT NOT NULL UNIQUE);");
             statement.execute("CREATE TABLE IF NOT EXISTS customers (id INT PRIMARY KEY AUTO_INCREMENT, uuid TEXT UNIQUE, codeId INT, CONSTRAINT FOREIGN KEY (codeId) REFERENCES codes(id));");
